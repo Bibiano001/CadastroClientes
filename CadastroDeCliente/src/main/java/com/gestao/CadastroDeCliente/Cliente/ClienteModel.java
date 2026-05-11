@@ -37,7 +37,7 @@ public class ClienteModel {
 
     @ManyToOne
     @JoinColumn(name = "id_categoria")
-    private CategoriaModel categorias;
+    private CategoriaModel categoria;
 
 
 

@@ -16,6 +16,6 @@ public class ClienteDTO {
     private String nome;
     private String email;
     private int idade;
-    private CategoriaModel categorias;
+    private CategoriaModel categoria;
 
 }

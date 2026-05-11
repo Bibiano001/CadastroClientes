@@ -1,10 +1,8 @@
 package com.gestao.CadastroDeCliente.Categoria;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.gestao.CadastroDeCliente.Cliente.ClienteModel;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.OneToMany;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
