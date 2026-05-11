@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.IdGeneratorType;
 
 import java.util.List;
 
@@ -18,6 +19,9 @@ import java.util.List;
 @ToString
 public class CategoriaModel {
 
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
@@ -25,7 +29,7 @@ public class CategoriaModel {
     private String tipo;
 
 
-    @OneToMany(mappedBy = "categorias", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<ClienteModel> clientes;
 
