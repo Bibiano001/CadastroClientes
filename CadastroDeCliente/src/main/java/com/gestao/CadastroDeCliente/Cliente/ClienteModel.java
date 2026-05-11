@@ -2,6 +2,7 @@ package com.gestao.CadastroDeCliente.Cliente;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.gestao.CadastroDeCliente.Categoria.CategoriaModel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
