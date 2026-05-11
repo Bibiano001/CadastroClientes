@@ -23,7 +23,7 @@ public class ClienteController {
     @GetMapping("/listar")
     public ResponseEntity<List<ClienteDTO>> listarClientes(){
         List<ClienteDTO> listaClientes = clienteService.listarCliente();
-        if (listaClientes == null) {
+        if (listaClientes.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         else {
