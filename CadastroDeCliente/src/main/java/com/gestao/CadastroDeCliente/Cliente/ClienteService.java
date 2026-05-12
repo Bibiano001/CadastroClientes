@@ -1,5 +1,6 @@
 package com.gestao.CadastroDeCliente.Cliente;
 
+import org.apache.el.lang.ELArithmetic;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -56,5 +57,18 @@ public class ClienteService {
         }
 
         return null;
+    }
+
+    //Deletar Cliente
+
+    public void deletarCliente(Long id){
+        Optional<ClienteModel> clienteExistente = clienteRepository.findById(id);
+        if (clienteExistente.isPresent()){
+            clienteRepository.deleteById(id);
+        }
+        else{
+            throw new RuntimeException("Cliente com ID " + id + " não encontrado.");
+        }
+
     }
 }
