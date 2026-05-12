@@ -37,15 +37,9 @@ public class ClienteController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addCliente(@RequestBody ClienteDTO clienteDTO){
+    public ResponseEntity<ClienteDTO> addCliente(@RequestBody ClienteDTO clienteDTO){
         ClienteDTO NovoCliente = clienteService.addCliente(clienteDTO);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body("Ninja criado com sucesso! \n" +
-                "Id: " + NovoCliente.getId() +
-                "Nome: " + NovoCliente.getNome() +
-                "Idade: " + NovoCliente.getIdade() +
-                "Email: " + NovoCliente.getEmail() +
-                "Categoria: " + NovoCliente.getCategoria());
+        return ResponseEntity.status(HttpStatus.CREATED).body(NovoCliente);
     }
 
 }
