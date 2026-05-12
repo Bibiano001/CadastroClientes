@@ -5,10 +5,7 @@ import com.gestao.CadastroDeCliente.Categoria.CategoriaDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -37,6 +34,18 @@ public class ClienteController {
     public ResponseEntity<ClienteDTO> listarClienteID(@PathVariable Long id){
         ClienteDTO clienteID = clienteService.listarClienteID(id);
         return ResponseEntity.ok(clienteID);
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<String> addCliente(@RequestBody ClienteDTO clienteDTO){
+        ClienteDTO NovoCliente = clienteService.addCliente(clienteDTO);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body("Ninja criado com sucesso! \n" +
+                "Id: " + clienteDTO.getId() +
+                "Nome: " + clienteDTO.getNome() +
+                "Idade: " + clienteDTO.getIdade() +
+                "Email: " + clienteDTO.getEmail() +
+                "Categoria: " + clienteDTO.getCategoria());
     }
 
 }
