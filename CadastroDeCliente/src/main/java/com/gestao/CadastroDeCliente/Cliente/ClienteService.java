@@ -3,6 +3,7 @@ package com.gestao.CadastroDeCliente.Cliente;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,5 +27,12 @@ public class ClienteService {
                 .map(clienteMAPPER::map)
                 .collect(Collectors.toList());
 
+    }
+
+
+    //listar cliente por ID
+    public ClienteDTO listarClienteID(Long id){
+        Optional<ClienteModel> clienteID = clienteRepository.findById(id);
+        return clienteID.map(clienteMAPPER::map).orElse(null);
     }
 }

@@ -32,4 +32,9 @@ public class ClienteController {
 
     }
 
+    @GetMapping("/listar/{id}")
+    public ResponseEntity<ClienteDTO> listarClienteID(){
+
+    }
+
 }
