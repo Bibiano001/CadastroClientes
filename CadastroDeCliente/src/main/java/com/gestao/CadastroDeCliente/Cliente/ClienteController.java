@@ -54,4 +54,10 @@ public class ClienteController {
         }
     }
 
+    @DeleteMapping("deletar/{id}")
+    public ResponseEntity<String> deletarCliente(@PathVariable Long id){
+        clienteService.deletarCliente(id);
+        return ResponseEntity.ok("Ninja deletado com sucesso!");
+    }
+
 }
