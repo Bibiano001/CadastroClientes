@@ -42,4 +42,16 @@ public class ClienteController {
         return ResponseEntity.status(HttpStatus.CREATED).body(NovoCliente);
     }
 
+    @PutMapping("/atualizar/{id}")
+    public ResponseEntity<String> atualizarCliente(@PathVariable Long id, @RequestBody ClienteDTO clienteDTO){
+        if (clienteService.listarClienteID(id) != null){
+            clienteService.atualizarCliente(id, clienteDTO);
+            return ResponseEntity.ok("Cliente atualizado com sucesso!");
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Cliente não encontrado.");
+        }
+    }
+
 }
