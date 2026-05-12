@@ -43,4 +43,18 @@ public class ClienteService {
         clienteRepository.save(clienteModel);
         return clienteMAPPER.map(clienteModel);
     }
+
+    //Atualizar Cliente
+
+    public ClienteDTO atualizarCliente(Long id, ClienteDTO clienteDTO){
+        Optional<ClienteModel> clienteExistente = clienteRepository.findById(id);
+        if (clienteExistente.isPresent()){
+            ClienteModel clienteAtualizado = clienteMAPPER.map(clienteDTO);
+            clienteAtualizado.setId(id);
+            ClienteModel clienteSalvo = clienteRepository.save(clienteAtualizado);
+            return clienteMAPPER.map(clienteSalvo);
+        }
+
+        return null;
+    }
 }
