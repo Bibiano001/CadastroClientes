@@ -30,7 +30,6 @@ public class ClienteService {
 
     }
 
-
     //listar cliente por ID
     public ClienteDTO listarClienteID(Long id){
         Optional<ClienteModel> clienteID = clienteRepository.findById(id);
