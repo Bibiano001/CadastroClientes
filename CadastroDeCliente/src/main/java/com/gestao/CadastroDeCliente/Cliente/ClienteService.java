@@ -35,4 +35,12 @@ public class ClienteService {
         Optional<ClienteModel> clienteID = clienteRepository.findById(id);
         return clienteID.map(clienteMAPPER::map).orElse(null);
     }
+
+    //Adicionar Cliente
+
+    public ClienteDTO addCliente(ClienteDTO clienteDTO){
+        ClienteModel clienteModel = clienteMAPPER.map(clienteDTO);
+        clienteRepository.save(clienteModel);
+        return clienteMAPPER.map(clienteModel);
+    }
 }
