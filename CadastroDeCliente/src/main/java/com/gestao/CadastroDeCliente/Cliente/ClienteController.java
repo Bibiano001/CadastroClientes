@@ -41,11 +41,11 @@ public class ClienteController {
         ClienteDTO NovoCliente = clienteService.addCliente(clienteDTO);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body("Ninja criado com sucesso! \n" +
-                "Id: " + clienteDTO.getId() +
-                "Nome: " + clienteDTO.getNome() +
-                "Idade: " + clienteDTO.getIdade() +
-                "Email: " + clienteDTO.getEmail() +
-                "Categoria: " + clienteDTO.getCategoria());
+                "Id: " + NovoCliente.getId() +
+                "Nome: " + NovoCliente.getNome() +
+                "Idade: " + NovoCliente.getIdade() +
+                "Email: " + NovoCliente.getEmail() +
+                "Categoria: " + NovoCliente.getCategoria());
     }
 
 }
