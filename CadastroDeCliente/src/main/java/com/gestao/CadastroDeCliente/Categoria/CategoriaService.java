@@ -20,8 +20,7 @@ public class CategoriaService {
 
     // listar todas as categorias
 
-    @GetMapping("/listar")
-    public List<CategoriaDTO> categoriaDTOS (){
+    public List<CategoriaDTO> listarCategorias (){
         List<CategoriaModel> categoriaModels = categoriaRepository.findAll();
         return categoriaModels.stream()
                 .map(categoriaMAPPER::map)
