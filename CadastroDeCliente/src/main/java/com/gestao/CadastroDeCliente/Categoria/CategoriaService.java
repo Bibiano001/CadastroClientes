@@ -26,4 +26,12 @@ public class CategoriaService {
                 .map(categoriaMAPPER::map)
                 .collect(Collectors.toList());
     }
+
+    // Criar uma categoria
+
+    public CategoriaDTO addCategoria(CategoriaDTO categoriaDTO){
+        CategoriaModel categoriaModel = categoriaMAPPER.map(categoriaDTO);
+        CategoriaModel categoriaSalvada = categoriaRepository.save(categoriaModel);
+        return  categoriaMAPPER.map(categoriaSalvada);
+    }
 }
