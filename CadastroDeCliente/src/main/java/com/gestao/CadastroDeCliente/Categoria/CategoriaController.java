@@ -1,12 +1,11 @@
 package com.gestao.CadastroDeCliente.Categoria;
 
 
+import com.gestao.CadastroDeCliente.Cliente.ClienteDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,6 +28,12 @@ public class CategoriaController {
         else {
             return ResponseEntity.status(HttpStatus.FOUND).body(categoriaDTOS);
         }
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<CategoriaDTO> addCategoria (@RequestBody CategoriaDTO categoriaDTO){
+        CategoriaDTO categoriaAdicionada = categoriaService.addCategoria(categoriaDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(categoriaAdicionada);
     }
 
 
