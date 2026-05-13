@@ -1,4 +1,30 @@
 package com.gestao.CadastroDeCliente.Categoria;
 
+
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
 public class CategoriaService {
+
+    private CategoriaRepository categoriaRepository;
+    private CategoriaMAPPER categoriaMAPPER;
+
+    public CategoriaService(CategoriaRepository categoriaRepository, CategoriaMAPPER categoriaMAPPER) {
+        this.categoriaRepository = categoriaRepository;
+        this.categoriaMAPPER = categoriaMAPPER;
+    }
+
+    // listar todas as categorias
+
+    @GetMapping("/listar")
+    public List<CategoriaDTO> categoriaDTOS (){
+        List<CategoriaModel> categoriaModels = categoriaRepository.findAll();
+        return categoriaModels.stream()
+                .map(categoriaMAPPER::map)
+                .collect(Collectors.toList());
+    }
 }
