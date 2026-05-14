@@ -2,13 +2,16 @@ package com.gestao.CadastroDeCliente.Categoria;
 
 
 import com.gestao.CadastroDeCliente.Cliente.ClienteDTO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
+@Slf4j
 @RestController
 @RequestMapping("/categoria")
 public class CategoriaController {
@@ -28,6 +31,18 @@ public class CategoriaController {
         else {
             return ResponseEntity.status(HttpStatus.FOUND).body(categoriaDTOS);
         }
+    }
+
+    @GetMapping("/listar/{id}")
+    public ResponseEntity<?> listarCategoriaID(@PathVariable Long id){
+        CategoriaDTO categoriaDTO =  categoriaService.listarCaterogiaID(id);
+        if (categoriaDTO == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Categoria não encontrada.");
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.FOUND).body(categoriaDTO);
+        }
+
     }
 
     @PostMapping("/add")
