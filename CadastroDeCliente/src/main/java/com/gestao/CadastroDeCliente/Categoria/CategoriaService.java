@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,6 +28,13 @@ public class CategoriaService {
                 .collect(Collectors.toList());
     }
 
+    //listar por id
+
+    public CategoriaDTO listarCaterogiaID (Long id){
+        Optional<CategoriaModel> categoriaID = categoriaRepository.findById(id);
+        return categoriaID.map(categoriaMAPPER::map).orElse(null);
+    }
+
     // Criar uma categoria
 
     public CategoriaDTO addCategoria(CategoriaDTO categoriaDTO){
@@ -34,4 +42,5 @@ public class CategoriaService {
         CategoriaModel categoriaSalvada = categoriaRepository.save(categoriaModel);
         return  categoriaMAPPER.map(categoriaSalvada);
     }
+
 }
