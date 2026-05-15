@@ -66,5 +66,17 @@ public class CategoriaController {
 
     }
 
+    @DeleteMapping("/deletar/{id}")
+    public ResponseEntity<?> deletarCategoriaID (@PathVariable Long id){
+        CategoriaDTO categoriaID = categoriaService.listarCaterogiaID(id);
+        if (categoriaID != null){
+            categoriaService.deletarCategoriaID(id);
+            return ResponseEntity.ok("Categoria do ID: " + id + " deletada com sucesso!");
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Categoria do ID: " + id + " não encontrada.");
+        }
+    }
+
 
 }
