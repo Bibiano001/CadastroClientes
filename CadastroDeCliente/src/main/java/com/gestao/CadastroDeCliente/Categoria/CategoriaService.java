@@ -1,6 +1,7 @@
 package com.gestao.CadastroDeCliente.Categoria;
 
 
+import com.gestao.CadastroDeCliente.Cliente.ClienteModel;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -42,5 +43,22 @@ public class CategoriaService {
         CategoriaModel categoriaSalvada = categoriaRepository.save(categoriaModel);
         return  categoriaMAPPER.map(categoriaSalvada);
     }
+
+
+    //Atualizar uma categoria
+
+    public CategoriaDTO atualizarCategoria(Long id, CategoriaDTO categoriaDTO){
+        Optional<CategoriaModel> categoriaExistente = categoriaRepository.findById(id);
+        if (categoriaExistente.isPresent()){
+            CategoriaModel categoriaAtualizada = categoriaMAPPER.map(categoriaDTO);
+            categoriaAtualizada.setId(id);
+            CategoriaModel categoriaSalva = categoriaRepository.save(categoriaAtualizada);
+            return categoriaMAPPER.map(categoriaSalva);
+        }
+        else {
+            return null;
+        }
+    }
+
 
 }

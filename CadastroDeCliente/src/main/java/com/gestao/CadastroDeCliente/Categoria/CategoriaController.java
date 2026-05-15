@@ -35,7 +35,7 @@ public class CategoriaController {
 
     @GetMapping("/listar/{id}")
     public ResponseEntity<?> listarCategoriaID(@PathVariable Long id){
-        CategoriaDTO categoriaDTO =  categoriaService.listarCaterogiaID(id);
+        CategoriaDTO categoriaDTO = categoriaService.listarCaterogiaID(id);
         if (categoriaDTO == null){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Categoria não encontrada.");
         }
