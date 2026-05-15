@@ -60,5 +60,11 @@ public class CategoriaService {
         }
     }
 
+    //Deletar uma categoria por ID
+
+    public void deletarCategoriaID(Long id){
+        categoriaRepository.deleteById(id);
+    }
+
 
 }
