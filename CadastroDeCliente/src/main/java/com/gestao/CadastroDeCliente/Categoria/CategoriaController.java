@@ -52,4 +52,19 @@ public class CategoriaController {
     }
 
 
+    @PutMapping("/atualizar/{id}")
+    public ResponseEntity<?> atualizarCategoria(@PathVariable Long id,@RequestBody CategoriaDTO categoriaDTO){
+        CategoriaDTO categoriaID = categoriaService.listarCaterogiaID(id);
+        if (categoriaID != null){
+            CategoriaDTO categoriaAtualizada = categoriaService.atualizarCategoria(id , categoriaDTO);
+            return ResponseEntity.ok(categoriaAtualizada);
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Categoria não encontrada.");
+        }
+
+
+    }
+
+
 }
