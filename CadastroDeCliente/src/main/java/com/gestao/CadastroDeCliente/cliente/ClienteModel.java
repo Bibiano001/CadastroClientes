@@ -1,45 +1,35 @@
-package com.gestao.CadastroDeCliente.Cliente;
+package com.gestao.CadastroDeCliente.cliente;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.gestao.CadastroDeCliente.Categoria.CategoriaModel;
+import com.gestao.CadastroDeCliente.categoria.CategoriaModel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
-
-import java.util.List;
+import lombok.Setter;
 
 @Entity
 @Table(name = "tb_clientes")
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-@ToString
+@Getter
+@Setter
 public class ClienteModel {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "nome")
+    @Column(name = "nome", nullable = false)
     private String nome;
 
-    @Column(unique = true)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "idade")
-    private int idade;
+    @Column(name = "idade", nullable = false)
+    private Integer idade;
 
     @ManyToOne
     @JoinColumn(name = "id_categoria")
     private CategoriaModel categoria;
-
-
-
-
 }

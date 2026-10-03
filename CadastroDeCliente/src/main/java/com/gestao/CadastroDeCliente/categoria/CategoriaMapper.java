@@ -1,28 +1,18 @@
-package com.gestao.CadastroDeCliente.Categoria;
-
+package com.gestao.CadastroDeCliente.categoria;
 
 import org.springframework.stereotype.Component;
 
 @Component
-public class CategoriaMAPPER {
+public class CategoriaMapper {
 
-    public CategoriaModel map(CategoriaDTO categoriaDTO){
-
+    public CategoriaModel map(CategoriaDTO categoriaDTO) {
         CategoriaModel categoriaModel = new CategoriaModel();
         categoriaModel.setId(categoriaDTO.getId());
         categoriaModel.setTipo(categoriaDTO.getTipo());
-        categoriaModel.setClientes(categoriaDTO.getClientes());
-
         return categoriaModel;
     }
 
-    public CategoriaDTO map(CategoriaModel categoriaModel){
-
-        CategoriaDTO categoriaDTO = new CategoriaDTO();
-        categoriaDTO.setId(categoriaModel.getId());
-        categoriaDTO.setTipo(categoriaModel.getTipo());
-        categoriaDTO.setClientes(categoriaModel.getClientes());
-
-        return  categoriaDTO;
+    public CategoriaDTO map(CategoriaModel categoriaModel) {
+        return new CategoriaDTO(categoriaModel.getId(), categoriaModel.getTipo());
     }
 }

@@ -1,37 +1,32 @@
-package com.gestao.CadastroDeCliente.Categoria;
+package com.gestao.CadastroDeCliente.categoria;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.gestao.CadastroDeCliente.Cliente.ClienteModel;
+import com.gestao.CadastroDeCliente.cliente.ClienteModel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
-import org.hibernate.annotations.IdGeneratorType;
+import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "tb_categorias")
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-@ToString
+@Getter
+@Setter
 public class CategoriaModel {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "tipo")
+    @Column(name = "tipo", nullable = false)
     private String tipo;
 
-
-    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<ClienteModel> clientes;
-
-
+    // Sem cascade: apagar uma categoria NÃO pode apagar os clientes dela
+    @OneToMany(mappedBy = "categoria")
+    private List<ClienteModel> clientes = new ArrayList<>();
 }

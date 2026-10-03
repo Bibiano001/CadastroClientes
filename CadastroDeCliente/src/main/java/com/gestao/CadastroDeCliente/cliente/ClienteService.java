@@ -1,73 +1,81 @@
-package com.gestao.CadastroDeCliente.Cliente;
+package com.gestao.CadastroDeCliente.cliente;
 
-import org.apache.el.lang.ELArithmetic;
+import com.gestao.CadastroDeCliente.categoria.CategoriaService;
+import com.gestao.CadastroDeCliente.exception.RecursoNaoEncontradoException;
+import com.gestao.CadastroDeCliente.exception.RegraDeNegocioException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ClienteService {
 
+    private final ClienteRepository clienteRepository;
+    private final ClienteMapper clienteMapper;
+    private final CategoriaService categoriaService;
 
-    private ClienteRepository clienteRepository;
-    private ClienteMAPPER clienteMAPPER;
-
-    public ClienteService(ClienteRepository clienteRepository, ClienteMAPPER clienteMAPPER) {
+    public ClienteService(ClienteRepository clienteRepository,
+                          ClienteMapper clienteMapper,
+                          CategoriaService categoriaService) {
         this.clienteRepository = clienteRepository;
-        this.clienteMAPPER = clienteMAPPER;
+        this.clienteMapper = clienteMapper;
+        this.categoriaService = categoriaService;
     }
 
-
-    //listar todos os clientes
-
-    public List<ClienteDTO> listarCliente(){
-        List<ClienteModel> clientesModels = clienteRepository.findAll();
-        return clientesModels.stream()
-                .map(clienteMAPPER::map)
-                .collect(Collectors.toList());
-
+    // Listar todos os clientes
+    public List<ClienteDTO> listarClientes() {
+        return clienteRepository.findAll().stream()
+                .map(clienteMapper::map)
+                .toList();
     }
 
-    //listar cliente por ID
-    public ClienteDTO listarClienteID(Long id){
-        Optional<ClienteModel> clienteID = clienteRepository.findById(id);
-        return clienteID.map(clienteMAPPER::map).orElse(null);
+    // Buscar cliente por ID
+    public ClienteDTO buscarClientePorId(Long id) {
+        return clienteMapper.map(buscarModelPorId(id));
     }
 
-    //Adicionar Cliente
-
-    public ClienteDTO addCliente(ClienteDTO clienteDTO){
-        ClienteModel clienteModel = clienteMAPPER.map(clienteDTO);
-        clienteRepository.save(clienteModel);
-        return clienteMAPPER.map(clienteModel);
-    }
-
-    //Atualizar Cliente
-
-    public ClienteDTO atualizarCliente(Long id, ClienteDTO clienteDTO){
-        Optional<ClienteModel> clienteExistente = clienteRepository.findById(id);
-        if (clienteExistente.isPresent()){
-            ClienteModel clienteAtualizado = clienteMAPPER.map(clienteDTO);
-            clienteAtualizado.setId(id);
-            ClienteModel clienteSalvo = clienteRepository.save(clienteAtualizado);
-            return clienteMAPPER.map(clienteSalvo);
+    // Criar cliente
+    public ClienteDTO criarCliente(ClienteDTO clienteDTO) {
+        if (clienteRepository.existsByEmail(clienteDTO.getEmail())) {
+            throw new RegraDeNegocioException("Já existe um cliente com o e-mail " + clienteDTO.getEmail() + ".");
         }
-
-        return null;
+        ClienteModel clienteModel = clienteMapper.map(clienteDTO);
+        clienteModel.setId(null); // o ID é sempre gerado pelo banco
+        vincularCategoria(clienteModel, clienteDTO.getCategoriaId());
+        ClienteModel clienteSalvo = clienteRepository.save(clienteModel);
+        return clienteMapper.map(clienteSalvo);
     }
 
-    //Deletar Cliente
-
-    public void deletarCliente(Long id){
-        Optional<ClienteModel> clienteExistente = clienteRepository.findById(id);
-        if (clienteExistente.isPresent()){
-            clienteRepository.deleteById(id);
+    // Atualizar cliente
+    public ClienteDTO atualizarCliente(Long id, ClienteDTO clienteDTO) {
+        ClienteModel clienteExistente = buscarModelPorId(id);
+        if (clienteRepository.existsByEmailAndIdNot(clienteDTO.getEmail(), id)) {
+            throw new RegraDeNegocioException("Já existe outro cliente com o e-mail " + clienteDTO.getEmail() + ".");
         }
-        else{
-            throw new RuntimeException("Cliente com ID " + id + " não encontrado.");
-        }
+        clienteExistente.setNome(clienteDTO.getNome());
+        clienteExistente.setEmail(clienteDTO.getEmail());
+        clienteExistente.setIdade(clienteDTO.getIdade());
+        vincularCategoria(clienteExistente, clienteDTO.getCategoriaId());
+        ClienteModel clienteSalvo = clienteRepository.save(clienteExistente);
+        return clienteMapper.map(clienteSalvo);
+    }
 
+    // Deletar cliente
+    public void deletarCliente(Long id) {
+        ClienteModel cliente = buscarModelPorId(id);
+        clienteRepository.delete(cliente);
+    }
+
+    private ClienteModel buscarModelPorId(Long id) {
+        return clienteRepository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Cliente com ID " + id + " não encontrado."));
+    }
+
+    private void vincularCategoria(ClienteModel cliente, Long categoriaId) {
+        if (categoriaId == null) {
+            cliente.setCategoria(null);
+        } else {
+            cliente.setCategoria(categoriaService.buscarModelPorId(categoriaId));
+        }
     }
 }

@@ -1,22 +1,19 @@
-package com.gestao.CadastroDeCliente.Categoria;
+package com.gestao.CadastroDeCliente.categoria;
 
-
-import com.gestao.CadastroDeCliente.Cliente.ClienteModel;
-
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class CategoriaDTO {
 
     private Long id;
-    private String tipo;
-    private List<ClienteModel> clientes;
 
+    @NotBlank(message = "O tipo é obrigatório.")
+    @Size(max = 50, message = "O tipo deve ter no máximo 50 caracteres.")
+    private String tipo;
 }
