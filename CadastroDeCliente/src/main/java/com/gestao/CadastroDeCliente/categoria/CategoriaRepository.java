@@ -1,4 +1,4 @@
-package com.gestao.CadastroDeCliente.Categoria;
+package com.gestao.CadastroDeCliente.categoria;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
